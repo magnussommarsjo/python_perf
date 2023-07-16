@@ -3,8 +3,10 @@ Used as load for testing diffrent compiling options.
 """
 
 from time import time
+from numba import njit
 
 
+@njit
 def fibonacci(n: int) -> int:
     """Simple fibonacci implementation"""
     if n <= 1:
