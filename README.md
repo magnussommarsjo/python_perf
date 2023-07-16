@@ -17,6 +17,10 @@ Summary of results.
 
 Calculation of `37` fibonacci number took about 4.5 seconds.
 
+```bash
+python3 fibonacci.py
+```
+
 ### Mypyc
 
 With type annotations we can speed up the code.
@@ -56,4 +60,28 @@ sudo apt install pypy3
 Then simply run:
 ```bash
 pypy3 fibonacci.py
+```
+
+### Numba
+JIT compiler for functions
+
+```bash
+pip install numba
+```
+
+Simply annotate function
+
+```python
+from numba import njit
+
+@njit
+def fibonacci(n: int) -> int:
+    ...
+
+```
+
+And run as regular python
+
+```bash
+python3 fibonacci_numba.py
 ```
