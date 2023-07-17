@@ -8,10 +8,11 @@ Summary of results.
 
 ||Run time [s]|Speed improvement|
 |---|---|---|
-|Python 3.11| 4.53 | (baseline)|
+|Python 3.11| 4.53 | 1x *(baseline)*|
 |mypyc|0.41| 11x|
-|pypy (python 3.9.16)| 0.41 | 11x |
-|numba|0.35 | ~13x |
+|pypy *(python 3.9.16)*| 0.41 | 11x |
+|numba|0.35 | 13x |
+|rust *(via maturin)*|0.115 | 39x |
 
 ### Regular python
 
@@ -84,4 +85,19 @@ And run as regular python
 
 ```bash
 python3 fibonacci_numba.py
+```
+
+### rust
+Running an rust implementation with python binfings via maturin and pyo3. 
+
+Assuming that you already have rust set up runnign the following will create the python implementation.
+```bash
+pip install maturin
+cd rust
+maturin develop -r
+```
+
+Now we can run the code
+```bash
+python3 fibonacci_rust.py
 ```
