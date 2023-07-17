@@ -4,9 +4,9 @@ TODO: This measurements with subprocess includes time for imports and starting p
 
 """
 
-from fibonacci import fibonacci as fib_base
-from fibonacci_numba import fibonacci as fib_numba
-from fibonacci_rust import fibonacci as fib_rust
+import fibonacci
+import fibonacci_numba
+from rust import fibonacci as fib_rust
 
 import timeit
 import pprint
@@ -20,11 +20,13 @@ results = {}
 
 # Regular Python
 print("Regular python running...")
-results['base'] = timeit.timeit(lambda: fib_base(FIB_SEQUENCE), number=REPEATS)
+results['base'] = timeit.timeit(lambda: fibonacci.fib(FIB_SEQUENCE), number=REPEATS)
 
 # With Numba
 print("Numba python running...")
-results['fib_numba'] = timeit.timeit(lambda: fib_numba (FIB_SEQUENCE), number=REPEATS)
+# Note: run numba to pre-compile. Resulting in "hot run"
+_ = fibonacci_numba.fib(5)
+results['fib_numba'] = timeit.timeit(lambda: fibonacci_numba.fib(FIB_SEQUENCE), number=REPEATS)
 
 # Rust implementation
 print("Rust running...")
@@ -37,8 +39,9 @@ print("Pypy running...")
 # pypy_timit_cmd = ["pypy3", "-m timeit", f"--number {REPEATS}", "--setup 'from fibonacci import fibonacci'", f"fibonacci({FIB_SEQUENCE})"]
 # res = subprocess.call(pypy_timit_cmd)
 
+# NOTE: this subpricesss also measures imports
 def run_pypy():
-    subprocess.call(["pypy3", "-c", f"from fibonacci import fibonacci; fibonacci({FIB_SEQUENCE})"])
+    subprocess.call(["pypy3", "-c", f"from fibonacci import fib; fib({FIB_SEQUENCE})"])
 
 results['pypy'] = timeit.timeit(lambda: run_pypy(), number=REPEATS)
 
@@ -49,11 +52,13 @@ print("Compiling with mypyc...")
 subprocess.call(["mypyc", "fibonacci.py"])  # Compile code
 print("...compiling finished. Remove folder afterwards")
 
+# NOTE: this subpricesss also measures imports
 def run_mypyc():
-    subprocess.call(["python3", "-c", f"from fibonacci import fibonacci; fibonacci({FIB_SEQUENCE})"])
+    subprocess.call(["python3", "-c", f"from fibonacci import fib; fib({FIB_SEQUENCE})"])
 
 results['mypyc'] = timeit.timeit(lambda: run_mypyc(), number=REPEATS)
-
+# importlib.reload(fibonacci)
+# results['mypyc'] = timeit.timeit(lambda: fibonacci.fib(FIB_SEQUENCE), number=REPEATS)
 
 
 pprint.pprint(results)

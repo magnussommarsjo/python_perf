@@ -8,11 +8,13 @@ Summary of results.
 
 ||Run time [s]|Speed improvement|
 |---|---|---|
-|Python 3.11| 4.53 | 1x *(baseline)*|
-|mypyc|0.41| 11x|
-|pypy *(python 3.9.16)*| 0.41 | 11x |
-|numba|0.35 | 13x |
-|rust *(via maturin)*|0.115 | 39x |
+|Python 3.11| 4.553 | 1x *(baseline)*|
+|mypyc|0.49*| 9.3x|
+|pypy *(python 3.9.16)*| 0.562* | 8.1x |
+|numba *(hot run)*|0.215 | 21.2x |
+|rust *(via maturin)*|0.107 | 42.4x |
+
+*\* includes import statements in runtime*
 
 ### Regular python
 
